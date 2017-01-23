@@ -49,7 +49,7 @@ export default class CanvasApp extends Component
     itemsRef.on( 'value', ( snap ) =>
     {
 
-      //get children as an array
+      // get children as an array
       var items = [];
       snap.forEach(( child ) =>
       {
@@ -62,6 +62,7 @@ export default class CanvasApp extends Component
       this.setState( {
         dataSource: this.state.dataSource.cloneWithRows( items )
       });
+
     });
   }
 
@@ -73,25 +74,21 @@ export default class CanvasApp extends Component
 
   _renderItem( item )
   {
+
     const onPress = () =>
     {
       AlertIOS.alert(
         'Complete',
         null,
         [
-          {
-            text: 'Complete',
-            onPress: ( text ) => this.itemsRef.child( item._key ).remove()
-          },
-          {
-            text: 'Cancel',
-            onPress: ( text ) => console.log( 'Cancelled' )
-          }
+          { text: 'Complete', onPress: ( text ) => this.itemsRef.child( item._key ).remove() },
+          { text: 'Cancel', onPress: ( text ) => console.log( 'Cancelled' ) }
         ]
-      )
-    }
+      );
+    };
+
     return (
-      <ListItem item="{item}" onpress={ onPress } />
+      <ListItem item={ item } onPress={ onPress } />
     );
   }
 
@@ -124,11 +121,19 @@ export default class CanvasApp extends Component
   {
     return (
       <View style={ styles.container }>
-        <StatusBar title="Canvas Bag" />
-        <ListView dataSource={ this.state.dataSource } renderRow={ this._renderItem.bind( this ) } enableEmptySections={ true } style={ styles.listview } />
-        <ActionButton title="Add" onpress="{()=>{}}" />
+
+        <StatusBar title="Grocery List" />
+
+        <ListView
+          dataSource={ this.state.dataSource }
+          renderRow={ this._renderItem.bind( this ) }
+          enableEmptySections={ true }
+          style={ styles.listview } />
+
+        <ActionButton onPress={ this._addItem.bind( this ) } title="Add" />
+
       </View>
-    );
+    )
   }
 }
 
